@@ -94,7 +94,7 @@ export default function SplashScreen() {
           ))}
         </View>
         <Animated.Text style={[styles.loadingText, { opacity: fadeAnim }]}>
-          Загрузка данных...
+          Загрузка данных...      
         </Animated.Text>
       </View>
 

@@ -47,3 +47,5 @@ const ShopsListScreen: React.FC<Props> = ({ navigation }) => {
     </View>
   );
 };
+
+export default ShopsListScreen;
