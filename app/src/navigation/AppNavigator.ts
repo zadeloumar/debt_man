@@ -6,27 +6,27 @@ import LoginScreen from '../../index';
 
 const Stack = createNativeStackNavigator();
 
-export default function AppNavigator() {
-  const { user } = useContext(AuthContext);
+// export default function AppNavigator() {
+//   const { user } = useContext(AuthContext);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!user ? (
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-        ) : user.role === 'ADMIN' ? (
-          <Stack.Screen name="AdminDashboard" component={() => null} />
-        ) : user.role === 'SELLER' ? (
-          <Stack.Screen name="SellerDashboard" component={() => null} />
-        ) : (
-          <Stack.Screen name="ClientDashboard" component={() => null} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         {!user ? (
+//           <Stack.Screen
+//             name="Login"
+//             component={LoginScreen}
+//             options={{ headerShown: false }}
+//           />
+//         ) : user.role === 'ADMIN' ? (
+//           <Stack.Screen name="AdminDashboard" component={() => null} />
+//         ) : user.role === 'SELLER' ? (
+//           <Stack.Screen name="SellerDashboard" component={() => null} />
+//         ) : (
+//           <Stack.Screen name="ClientDashboard" component={() => null} />
+//         )}
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
 
