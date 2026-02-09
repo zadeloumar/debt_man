@@ -48,3 +48,31 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+src/
+ ├── screens/
+ │    ├── LoginScreen.tsx
+ │    ├── AdminDashboard.tsx
+ │    ├── UsersScreen.tsx
+ │    ├── DebtsScreen.tsx
+ │    └── BlacklistScreen.tsx
+ │
+ ├── components/
+ │    ├── Input.tsx
+ │    ├── Button.tsx
+ │    └── DebtCard.tsx
+ │
+ ├── services/
+ │    ├── api.ts
+ │    ├── authService.ts
+ │    └── debtService.ts
+ │
+ ├── context/
+ │    └── AuthContext.tsx
+ │
+ ├── types/
+ │    ├── User.ts
+ │    └── Debt.ts
+ │
+ └── utils/
+      └── token.ts
