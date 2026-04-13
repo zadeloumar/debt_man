@@ -1,11 +1,13 @@
 // screens/seller/AddDebtScreen.jsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet} from 'react-native';
 import { Header } from '../../components/common/Header';
 import { Button } from '../../components/common/Button';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { addDebt } from '../../api/debts';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function AddDebtScreen({ navigation }) {
   const [name, setName] = useState('');
@@ -13,6 +15,7 @@ export default function AddDebtScreen({ navigation }) {
   const [amount, setAmount] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [loading, setLoading] = useState(false);
+  const thDate = new Date();
 
   const handleAdd = async () => {
     if (!name || !phone || !amount || !dueDate) {
@@ -37,7 +40,7 @@ export default function AddDebtScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
       <Header title="Новый долг" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={{ padding: spacing.lg }}>
         <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Имя клиента</Text>
@@ -63,14 +66,15 @@ export default function AddDebtScreen({ navigation }) {
         <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Срок (ГГГГ-ММ-ДД)</Text>
         <TextInput
           style={styles.input}
-          placeholder="2026-04-01"
+          placeholder={"2026-04-01"}
           placeholderTextColor={colors.gray}
           value={dueDate}
           onChangeText={setDueDate}
         />
+        
         <Button title={loading ? <ActivityIndicator color="#fff" /> : 'Добавить'} onPress={handleAdd} disabled={loading} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

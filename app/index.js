@@ -1,6 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { AuthContext, AuthProvider } from '../src/context/AuthContext';
+import { colors } from '../src/theme/colors';
 
 // Экраны
 import ClientPhoneScreen from '../src/screens/auth/ClientPhoneScreen';
@@ -14,7 +16,15 @@ import DebtDetailScreen from '../src/screens/seller/DebtDetailScreen';
 const Stack = createStackNavigator();
   
 function AppNavigator() {
-  const { sellerToken } = useContext(AuthContext);
+  const { sellerToken, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.darkBlue }}>
+        <ActivityIndicator size="large" color={colors.lightBlue} />
+      </View>
+    );
+  }
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

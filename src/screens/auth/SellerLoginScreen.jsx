@@ -1,11 +1,12 @@
-// screens/auth/SellerLoginScreen.jsx
-import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Alert, ActivityIndicator } from 'react-native';
-import { AuthContext } from '../../context/AuthContext';
-import { Header } from '../../components/common/Header';
+// screens/auth/SellerLoginScreen.jsxSellerLogi
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Alert, Text, TextInput, View } from 'react-native';
 import { Button } from '../../components/common/Button';
+import { Header } from '../../components/common/Header';
+import { AuthContext } from '../../context/AuthContext';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SellerLoginScreen({ navigation }) {
   const [phone, setPhone] = useState('');
@@ -21,15 +22,13 @@ export default function SellerLoginScreen({ navigation }) {
     setLoading(true);
     const result = await login(phone, password);
     setLoading(false);
-    if (result.success) {
-      navigation.replace('SellerDashboard');
-    } else {
+    if (!result.success) {
       Alert.alert('Ошибка', result.error);
     }
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
       <Header title="Вход продавца" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={{ padding: spacing.lg }}>
         <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Телефон</Text>
@@ -72,6 +71,6 @@ export default function SellerLoginScreen({ navigation }) {
           disabled={loading}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

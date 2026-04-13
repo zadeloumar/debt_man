@@ -6,6 +6,8 @@ import { Button } from '../../components/common/Button';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { payDebt } from '../../api/debts';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function DebtDetailScreen({ route, navigation }) {
   const { debt } = route.params;
@@ -37,7 +39,7 @@ export default function DebtDetailScreen({ route, navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
       <Header title="Детали долга" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={{ padding: spacing.lg }}>
         <View style={{ backgroundColor: colors.navyBlue, borderRadius: 12, padding: spacing.md, marginBottom: spacing.md }}>
@@ -59,6 +61,6 @@ export default function DebtDetailScreen({ route, navigation }) {
           />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

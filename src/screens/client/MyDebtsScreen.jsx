@@ -6,6 +6,7 @@ import { MenuItem } from '../../components/common/MenuItem';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MyDebtsScreen({ route, navigation }) {
   const { debts, phone } = route.params;
@@ -23,7 +24,7 @@ export default function MyDebtsScreen({ route, navigation }) {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
       <Header title="Ваши долги" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={{ padding: spacing.md }}>
         <Text style={{ color: colors.cream, fontSize: 16 }}>Телефон: {phone}</Text>
@@ -40,6 +41,6 @@ export default function MyDebtsScreen({ route, navigation }) {
           <Text style={{ color: colors.gray, textAlign: 'center', marginTop: 50 }}>Нет задолженностей</Text>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }

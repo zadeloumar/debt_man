@@ -6,6 +6,7 @@ import { Button } from '../../components/common/Button';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
 import { getCustomerDebts } from '../../api/customers';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ClientPhoneScreen({ navigation }) {
   const [phone, setPhone] = useState('');
@@ -29,7 +30,7 @@ export default function ClientPhoneScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
       <Header title="Проверка долгов" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={{ padding: spacing.lg }}>
         <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Ваш телефон</Text>
@@ -51,6 +52,6 @@ export default function ClientPhoneScreen({ navigation }) {
         />
         <Button title={loading ? 'Загрузка...' : 'Показать долги'} onPress={handleCheck} disabled={loading} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -91,3 +91,229 @@ npm install react-native-screens react-native-safe-area-context
 npm install @react-native-async-storage/async-storage
 npm install axios expo-constants
 npm install @expo/vector-icons
+
+
+
+Добавление поиска на экран DashboardScreen
+
+Мы добавим текстовое поле для поиска под шапкой, которое будет фильтровать список долгов по имени должника.
+
+📦 1. Новые импорты
+
+Добавьте TextInput и, если нужно, иконку очистки:
+
+```jsx
+import { View, FlatList, RefreshControl, Alert, Text, SafeAreaView, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+```
+
+📝 2. Состояние для поиска
+
+Добавьте в начало компонента:
+
+```jsx
+const [searchQuery, setSearchQuery] = useState('');
+```
+
+🔍 3. Функция фильтрации
+
+Создайте filteredDebts, которая будет вычисляться на основе debts и searchQuery:
+
+```jsx
+const filteredDebts = debts.filter(debt =>
+  debt.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
+```
+
+Если хотите искать ещё и по сумме, добавьте второе условие:
+
+```jsx
+const filteredDebts = debts.filter(debt =>
+  debt.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  debt.amount.toString().includes(searchQuery)
+);
+```
+
+🧹 4. Очистка поиска
+
+Функция для сброса:
+
+```jsx
+const clearSearch = () => setSearchQuery('');
+```
+
+🎨 5. Добавление поля поиска в интерфейс
+
+Разместите его после статистических карточек:
+
+```jsx
+<View style={{ paddingHorizontal: spacing.md, marginBottom: spacing.md }}>
+  <View style={styles.searchContainer}>
+    <Ionicons name="search" size={20} color={colors.gray} style={styles.searchIcon} />
+    <TextInput
+      style={styles.searchInput}
+      placeholder="Поиск по имени или сумме"
+      placeholderTextColor={colors.gray}
+      value={searchQuery}
+      onChangeText={setSearchQuery}
+    />
+    {searchQuery.length > 0 && (
+      <TouchableOpacity onPress={clearSearch}>
+        <Ionicons name="close-circle" size={20} color={colors.gray} />
+      </TouchableOpacity>
+    )}
+  </View>
+</View>
+```
+
+🧩 6. Обновление FlatList
+
+Используйте filteredDebts вместо debts:
+
+```jsx
+<FlatList
+  data={filteredDebts}
+  renderItem={renderDebtItem}
+  keyExtractor={(item) => item.id.toString()}
+  // остальные пропсы
+/>
+```
+
+Также обновите статистику: если нужно показывать сумму и количество по отфильтрованному списку, замените в StatCard значения на основе filteredDebts.
+
+📐 7. Стили для поиска
+
+Добавьте в StyleSheet:
+
+```jsx
+searchContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: colors.navyBlue,
+  borderRadius: 12,
+  paddingHorizontal: spacing.sm,
+  borderWidth: 1,
+  borderColor: colors.lightBlue,
+},
+searchIcon: {
+  marginRight: spacing.sm,
+},
+searchInput: {
+  flex: 1,
+  color: colors.cream,
+  paddingVertical: spacing.sm,
+  fontSize: 16,
+},
+```
+
+🔄 8. Обновление статистики (опционально)
+
+Если хотите, чтобы карточки статистики отображали данные только по отфильтрованным долгам, замените:
+
+```jsx
+<StatCard value={filteredDebts.length} label="Всего записей" />
+<StatCard value={`${filteredDebts.reduce((sum, d) => sum + (d.status === 'active' ? d.amount : 0), 0).toFixed(2)} ₽`} label="Активный долг" color={colors.error} />
+```
+
+Если оставить исходные debts.length и totalDebt, статистика будет общей, а список – фильтрованным. Выберите нужный вариант.
+
+📄 9. Полный пример итогового DashboardScreen.jsx
+
+```jsx
+// ... импорты
+export default function DashboardScreen({ navigation }) {
+  const [debts, setDebts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [totalDebt, setTotalDebt] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { logout } = useContext(AuthContext);
+
+  const formatDate = (isoString) => { /* ... */ };
+  const loadDebts = async () => { /* ... */ };
+  useFocusEffect(/* ... */);
+  const onRefresh = /* ... */;
+
+  const filteredDebts = debts.filter(debt =>
+    debt.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const clearSearch = () => setSearchQuery('');
+
+  const renderDebtItem = ({ item }) => { /* ... */ };
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue, paddingTop: spacing.md }}>
+      <Header /* ... */ />
+      <View style={{ flexDirection: 'row', padding: spacing.md }}>
+        <StatCard value={debts.length} label="Всего записей" />
+        <StatCard value={`${totalDebt.toFixed(2)} ₽`} label="Активный долг" color={colors.error} />
+      </View>
+      <View style={{ paddingHorizontal: spacing.md, marginBottom: spacing.md }}>
+        <View style={styles.searchContainer}>
+          <Ionicons name="search" size={20} color={colors.gray} style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Поиск по имени"
+            placeholderTextColor={colors.gray}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={clearSearch}>
+              <Ionicons name="close-circle" size={20} color={colors.gray} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>umar
+      <FlatList
+        data={filteredDebts}
+        renderItem={renderDebtItem}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ paddingHorizontal: spacing.md, paddingBottom: spacing.lg }}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.cream} />}
+        ListEmptyComponent={
+          <View style={{ alignItems: 'center', marginTop: 50 }}>
+            <Text style={{ color: colors.gray }}>
+              {searchQuery ? 'Ничего не найдено' : 'Нет долгов'}
+            </Text>
+          </View>
+        }
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  // ... существующие стили
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.navyBlue,
+    borderRadius: 12,
+    paddingHorizontal: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.lightBlue,
+  },
+  searchIcon: { marginRight: spacing.sm },
+  searchInput: { flex: 1, color: colors.cream, paddingVertical: spacing.sm, fontSize: 16 },
+});
+```
+
+🎯 Результат
+
+· Пользователь вводит имя в поле поиска → список мгновенно фильтруется.
+· Кнопка очистки появляется, когда есть текст.
+· Если ничего не найдено, выводится соответствующее сообщение.
+
+Поиск работает локально, без запросов к серверу, что быстро и удобно. При желании можно добавить дебаунс (задержку) для оптимизации, но для небольших списков это необязательно.
+
+- разделит или добавит экран сортировки активного долга и погашенных 
+
+- добавит описание к долгам
+
+- напоминания: программа может отправлять автоматические напоминания покупателю о предстоящих сроках погашения долгов.
+
+- история платежей: программа сохраняет историю всех погашений долгов, что помогает покупателю отслеживать свои финансовые обязательства.
+
+Также покупатели могут получать уведомления о специальных предложениях и скидках от магазина.
+ функция чата с продавцом для быстрого решения вопросов и получения консультаций по товарам.
+ 
