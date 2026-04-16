@@ -1,12 +1,12 @@
 // screens/seller/AddDebtScreen.jsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, ActivityIndicator, StyleSheet} from 'react-native';
-import { Header } from '../../components/common/Header';
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { addDebt } from '../../api/debts';
 import { Button } from '../../components/common/Button';
+import { Header } from '../../components/common/Header';
 import { colors } from '../../theme/colors';
 import { spacing } from '../../theme/spacing';
-import { addDebt } from '../../api/debts';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function AddDebtScreen({ navigation }) {
@@ -15,10 +15,20 @@ export default function AddDebtScreen({ navigation }) {
   const [amount, setAmount] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [loading, setLoading] = useState(false);
-  const thDate = new Date();
+
+  const [description, setDescription] = useState('');
+
+  const date = new Date();
+  const formattedDate = date.toISOString().split('T')[0];
 
   const handleAdd = async () => {
-    if (!name || !phone || !amount || !dueDate) {
+    let finDate = dueDate;
+
+    if (!finDate) {
+      finDate = formattedDate;
+    }
+
+    if (!name || !phone || !amount ) {
       Alert.alert('Ошибка', 'Заполните все поля');
       return;
     }
@@ -28,11 +38,12 @@ export default function AddDebtScreen({ navigation }) {
         name,
         phone,
         amount: parseFloat(amount),
-        due_date: dueDate,
+        due_date: finDate, 
+        description
       });
       Alert.alert('Успех', 'Долг добавлен');
       navigation.goBack();
-    } catch (error) {
+    } catch (_error) {
       Alert.alert('Ошибка', 'Не удалось добавить долг');
     } finally {
       setLoading(false);
@@ -63,10 +74,20 @@ export default function AddDebtScreen({ navigation }) {
           value={amount}
           onChangeText={setAmount}
         />
+        <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Описание (за что долг)</Text>
+        <TextInput
+          style={styles.input}
+          multiline
+          numberOfLines={3}
+          value={description}
+          onChangeText={setDescription}
+          placeholderTextColor={colors.gray}
+          placeholder="Например: продукты, бензин..."
+        />
         <Text style={{ color: colors.cream, marginBottom: spacing.xs }}>Срок (ГГГГ-ММ-ДД)</Text>
         <TextInput
           style={styles.input}
-          placeholder={"2026-04-01"}
+          placeholder={formattedDate}
           placeholderTextColor={colors.gray}
           value={dueDate}
           onChangeText={setDueDate}

@@ -30,16 +30,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.navyBlue,
+    backgroundColor: '#08213E',
     padding: spacing.md,
-    borderRadius: 12,
+    borderRadius: 18,
     marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: 'rgba(110, 172, 218, 0.22)',
   },
   icon: {
-    width: 32,
+    width: 42,
+    height: 42,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
+    backgroundColor: 'rgba(110, 172, 218, 0.12)',
   },
   content: {
     flex: 1,
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkBlue,
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
-    borderRadius: 10,
+    borderRadius: 999,
     marginLeft: spacing.sm,
   },
   badgeText: {

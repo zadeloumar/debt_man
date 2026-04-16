@@ -21,16 +21,19 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: colors.lightBlue,
     paddingVertical: spacing.md,
-    borderRadius: 12,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: 54,
+    borderWidth: 1,
+    borderColor: 'rgba(2, 21, 38, 0.08)',
   },
   buttonDisabled: {
     opacity: 0.6,
   },
   text: {
     color: colors.darkBlue,
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 16,
   },
 });

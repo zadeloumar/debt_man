@@ -1,4 +1,4 @@
-// screens/auth/ClientPhoneScreen.jsx
+// screens/auth/ApiSaveScreen.jsx
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet } from 'react-native';
 import { Header } from '../../components/common/Header';
@@ -8,9 +8,11 @@ import { spacing } from '../../theme/spacing';
 import { getCustomerDebts } from '../../api/customers';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ClientPhoneScreen({ navigation }) {
+export default function ApiSave() {
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [API_URL, setAPI_URL] = useState('');
 
   const handleCheck = async () => {
     if (!phone) {
@@ -31,21 +33,19 @@ export default function ClientPhoneScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
-      <Header title="Проверка долгов" showBackButton onBackPress={() => navigation.goBack()} />
+      <Header title="Подклчения к серверу" showBackButton onBackPress={() => navigation.goBack()} />
       <View style={styles.container}>
         
 
         <View style={styles.formCard}>
-          <Text style={styles.label}>Ваш телефон</Text>
           <TextInput
             style={styles.input}
-            placeholder="900000123"
+            placeholder="http://192.168.43.88:5000"
             placeholderTextColor={colors.gray}
-            keyboardType="phone-pad"
-            value={phone}
+            value={API_URL}
             onChangeText={setPhone}
           />
-          <Button title={loading ? 'Загрузка...' : 'Показать долги'} onPress={handleCheck} disabled={loading} />
+          <Button title={loading ? 'Загрузка...' : 'подключения к серверу'} onPress={handleCheck} disabled={loading} />
         </View>
         <View style={styles.heroCard}>
           <Text style={styles.heroTitle}>Проверьте задолженность за пару секунд</Text>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: spacing.md,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   heroCard: {
     backgroundColor: colors.navyBlue,
@@ -89,11 +89,6 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     borderWidth: 1,
     borderColor: 'rgba(110, 172, 218, 0.35)',
-  },
-  label: {
-    color: colors.cream,
-    marginBottom: spacing.xs,
-    fontWeight: '600',
   },
   input: {
     backgroundColor: colors.navyBlue,

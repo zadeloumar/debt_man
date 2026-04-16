@@ -19,19 +19,24 @@ export const StatCard = ({ value, label, color }) => {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    backgroundColor: colors.navyBlue,
+    backgroundColor: '#08213E',
     padding: spacing.md,
-    borderRadius: 12,
+    borderRadius: 18,
     marginHorizontal: spacing.xs,
+    borderWidth: 1,
+    borderColor: 'rgba(110, 172, 218, 0.25)',
+    minHeight: 94,
+    justifyContent: 'space-between',
   },
   value: {
     color: colors.cream,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
   },
   label: {
     color: colors.gray,
     marginTop: 4,
     fontSize: 12,
+    lineHeight: 16,
   },
 });

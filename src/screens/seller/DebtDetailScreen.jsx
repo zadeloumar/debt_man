@@ -27,7 +27,7 @@ export default function DebtDetailScreen({ route, navigation }) {
               await payDebt(debt.id);
               Alert.alert('Успех', 'Долг погашен');
               navigation.goBack();
-            } catch (error) {
+            } catch (_error) {
               Alert.alert('Ошибка', 'Не удалось обновить статус');
             } finally {
               setLoading(false);
@@ -45,6 +45,11 @@ export default function DebtDetailScreen({ route, navigation }) {
         <View style={{ backgroundColor: colors.navyBlue, borderRadius: 12, padding: spacing.md, marginBottom: spacing.md }}>
           <Text style={{ color: colors.cream, fontSize: 18 }}>{debt.name}</Text>
           <Text style={{ color: colors.lightBlue, marginTop: spacing.xs }}>📞 {debt.phone}</Text>
+          
+          <View style={{marginBottom: spacing.md}}>
+            <Text style={{color: colors.gray, fontSize: 14, marginBottom: spacing.xs}}>Описание:</Text>
+            <Text style={{color: colors.cream, fontSize: 16, lineHeight: 22}}>{debt.description}</Text>
+          </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: spacing.md }}>
             <Text style={{ color: colors.cream }}>Сумма:</Text>
             <Text style={{ color: colors.error, fontSize: 20, fontWeight: 'bold' }}>{debt.amount} ₽</Text>
