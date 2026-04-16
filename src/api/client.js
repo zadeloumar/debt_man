@@ -1,16 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const API_URL = 'http://192.168.43.88:5000'; // LAN IP вашего ПК
+// Функция для получения сохранённого адреса сервера
+const getServerUrl = async () => {
+  let url = await AsyncStorage.getItem('serverUrl');
+  
+  if (!url) {
+    // Значение по умолчанию – можно задать любой, но лучше показать экран настройки
+    url = 'http://192.168.43.889:5000 ';
+  }
+  console.log("client.js url>"+url)
+  return url;
+};
 
-
+// Создаём экземпляр без baseURL, будем устанавливать динамически
 const api = axios.create({
-  baseURL: API_URL,
   timeout: 10000,
 });
 
-// Добавляем токен к каждому запросу, если он есть
+// Интерцептор запросов – устанавливаем актуальный baseURL перед каждым запросом
 api.interceptors.request.use(async (config) => {
+  const baseURL = await getServerUrl();
+  config.baseURL = baseURL;
+  
   const token = await AsyncStorage.getItem('sellerToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
