@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">= 18.7.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "API_URL": "https://api.example.com"
+      },
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "API_URL": "https://api.example.com"
+      },
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "API_URL": "https://api.example.com"
+      },
+      "autoIncrement": true
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

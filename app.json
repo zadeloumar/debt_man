@@ -1,10 +1,15 @@
 {
   "expo": {
-    "name": "debt_man",
+    "name": "Dolg",
     "slug": "debt_man",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/splash/splash.png",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "scheme": "debtman",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,11 +17,13 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.yourcompany.debtman",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "monochromeImage": "./assets/images/android-icon-monochrome.png",
+        "usesCleartextTraffic": true
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -43,6 +50,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "apiUrl": "http://185.73.126.166:5000",
+      "router": {},
+      "eas": {
+        "projectId": "f5c6731c-59ef-4cc5-a841-4a7e33e6be28"
+      }
     }
   }
 }

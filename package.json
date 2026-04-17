@@ -8,7 +8,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "typecheck": "tsc --noEmit",
+    "eas-build-pre": "npm run typecheck && npm run lint",
+    "eas-build-post": "node -e \"console.log('EAS build hook finished')\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",

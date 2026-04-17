@@ -1,16 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import Constants from 'expo-constants';
+
+const fallbackServerUrl =
+  Constants.expoConfig?.extra?.apiUrl?.trim?.() || 'http://185.73.126.166:5000';
 
 // Функция для получения сохранённого адреса сервера
 const getServerUrl = async () => {
   let url = await AsyncStorage.getItem('serverUrl');
-  
+
   if (!url) {
-    // Значение по умолчанию – можно задать любой, но лучше показать экран настройки
-    url = 'http://192.168.43.889:5000 ';
+    url = fallbackServerUrl;
   }
-  console.log("client.js url>"+url)
-  return url;
+  return url.trim();
 };
 
 // Создаём экземпляр без baseURL, будем устанавливать динамически
@@ -22,7 +24,7 @@ const api = axios.create({
 api.interceptors.request.use(async (config) => {
   const baseURL = await getServerUrl();
   config.baseURL = baseURL;
-  
+
   const token = await AsyncStorage.getItem('sellerToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

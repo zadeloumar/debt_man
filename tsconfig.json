@@ -7,17 +7,25 @@
       "@/*": [
         "./*"
       ],
-      "@components/*": ["app/src/components/*"],
-      "@screens/*": ["app/src/screens/*"],
-      "@theme/*": ["app/src/theme/*"]
-    },
-    
-    
+      "@components/*": [
+        "app/src/components/*"
+      ],
+      "@screens/*": [
+        "app/src/screens/*"
+      ],
+      "@theme/*": [
+        "app/src/theme/*"
+      ]
+    }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "app/index.js"  ]
+    "expo-env.d.ts",
+    "app/index.js"
+  ],
+  "exclude": [
+    "app-example"
+  ]
 }
